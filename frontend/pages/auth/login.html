@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - DailyCup</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <span>☕</span>
+        <span>DailyCup</span>
+      </div>
+      <ul class="navbar-nav">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../customer/menu.html">Menu</a></li>
+        <li><a href="login.html" class="active">Login</a></li>
+        <li><a href="register.html">Register</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Login Form -->
+  <section style="padding: 3rem 0; min-height: 70vh; display: flex; align-items: center;">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-6" style="margin: 0 auto;">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="text-center mb-3">Login to DailyCup</h2>
+              
+              <form id="login-form">
+                <div class="form-group">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                  Login
+                </button>
+              </form>
+
+              <div style="text-align: center; margin: 2rem 0;">
+                <p style="color: var(--text-light);">Or login with</p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                  <a href="http://localhost:3000/api/auth/google" class="btn btn-outline">
+                    Google
+                  </a>
+                  <a href="http://localhost:3000/api/auth/facebook" class="btn btn-outline">
+                    Facebook
+                  </a>
+                </div>
+              </div>
+
+              <div class="text-center">
+                <p>Don't have an account? <a href="register.html">Register here</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2024 DailyCup. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../../js/api.js"></script>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      // Validate
+      if (!Utils.isValidEmail(email)) {
+        Utils.showAlert('Please enter a valid email address', 'error');
+        return;
+      }
+      
+      if (password.length < 6) {
+        Utils.showAlert('Password must be at least 6 characters', 'error');
+        return;
+      }
+      
+      // Login
+      await Auth.handleLogin(email, password);
+    });
+
+    // Redirect if already logged in
+    if (Auth.isAuthenticated()) {
+      const user = Auth.getCurrentUser();
+      if (['admin', 'super_admin', 'staff'].includes(user.role)) {
+        window.location.href = '../admin/dashboard.html';
+      } else {
+        window.location.href = '../customer/menu.html';
+      }
+    }
+  </script>
+</body>
+</html>
