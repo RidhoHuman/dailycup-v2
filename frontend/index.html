@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DailyCup - Your Daily Coffee Companion</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-brand">
+        <span>☕</span>
+        <span>DailyCup</span>
+      </div>
+      <ul class="navbar-nav">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="pages/customer/menu.html">Menu</a></li>
+        <li><a href="pages/auth/login.html">Login</a></li>
+        <li><a href="pages/auth/register.html">Register</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Welcome to DailyCup</h1>
+      <p>Your Daily Coffee Companion - Fresh Brewed, Always Perfect</p>
+      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+        <a href="pages/customer/menu.html" class="btn btn-primary btn-lg">Browse Menu</a>
+        <a href="pages/auth/register.html" class="btn btn-secondary btn-lg">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section style="padding: 3rem 0;">
+    <div class="container">
+      <h2 class="text-center mb-4">Featured Products</h2>
+      <div id="featured-products" class="row">
+        <div class="col-12 text-center">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section style="background-color: var(--white); padding: 3rem 0;">
+    <div class="container">
+      <h2 class="text-center mb-4">Why Choose DailyCup?</h2>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="card text-center" style="height: 100%;">
+            <div class="card-body">
+              <div style="font-size: 3rem; margin-bottom: 1rem;">☕</div>
+              <h4>Premium Quality</h4>
+              <p>We serve only the finest coffee beans sourced from the best farms</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card text-center" style="height: 100%;">
+            <div class="card-body">
+              <div style="font-size: 3rem; margin-bottom: 1rem;">🚀</div>
+              <h4>Fast Delivery</h4>
+              <p>Get your coffee delivered hot and fresh within 30 minutes</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card text-center" style="height: 100%;">
+            <div class="card-body">
+              <div style="font-size: 3rem; margin-bottom: 1rem;">⭐</div>
+              <h4>Loyalty Rewards</h4>
+              <p>Earn points with every purchase and redeem for discounts</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <h5>About DailyCup</h5>
+          <p>Your trusted coffee shop delivering quality beverages and food to your doorstep.</p>
+        </div>
+        <div class="col-12 col-md-4">
+          <h5>Quick Links</h5>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="pages/customer/menu.html">Menu</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="pages/auth/login.html">Login</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="pages/auth/register.html">Register</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-4">
+          <h5>Contact Us</h5>
+          <p>Email: info@dailycup.com<br>Phone: +62 812 3456 7890</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 DailyCup. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Load featured products
+    async function loadFeaturedProducts() {
+      const container = document.getElementById('featured-products');
+      
+      const result = await API.Products.getAll({ is_featured: 1, pageSize: 6 });
+      
+      if (result.success && result.data.length > 0) {
+        container.innerHTML = result.data.map(product => `
+          <div class="col-12 col-md-4">
+            <div class="card product-card">
+              ${product.is_featured ? '<span class="badge badge-warning">Featured</span>' : ''}
+              <img src="${product.image || '/frontend/assets/images/products/default.jpg'}" 
+                   alt="${product.name}" class="card-img">
+              <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${Utils.truncateText(product.description || '', 80)}</p>
+                <div class="product-rating">
+                  ${Utils.generateStars(Math.round(product.average_rating))}
+                  <span class="reviews-count">(${product.total_reviews})</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                  <div class="product-price">${Utils.formatCurrency(product.base_price)}</div>
+                  <a href="pages/customer/product-detail.html?id=${product.id}" class="btn btn-primary btn-sm">View</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        container.innerHTML = `
+          <div class="col-12">
+            <div class="empty-state">
+              <div style="font-size: 4rem;">☕</div>
+              <h3>No featured products yet</h3>
+              <p>Check back soon for our latest offerings!</p>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFeaturedProducts();
+    });
+  </script>
+</body>
+</html>

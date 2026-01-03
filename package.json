@@ -1,0 +1,13 @@
+{
+  "name": "dailycup-v2",
+  "version": "1.0.0",
+  "description": "CRM Website for Coffee Shop - Node.js Native Version",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "cd backend && node server.js",
+    "dev": "cd backend && nodemon server.js"
+  },
+  "keywords": ["coffee", "crm", "nodejs", "mysql"],
+  "author": "DailyCup Team",
+  "license": "ISC"
+}

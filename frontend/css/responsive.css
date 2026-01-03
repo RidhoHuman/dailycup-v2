@@ -1,0 +1,125 @@
+/* ==============================================
+   Responsive Styles
+   Mobile-First Approach
+   ============================================== */
+
+/* Mobile Devices (up to 576px) - Base styles already mobile-friendly */
+
+/* Tablets (576px and up) */
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+/* Medium devices (768px and up) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+  
+  html {
+    font-size: 17px;
+  }
+  
+  .col-md-1 { flex: 0 0 8.333%; max-width: 8.333%; }
+  .col-md-2 { flex: 0 0 16.666%; max-width: 16.666%; }
+  .col-md-3 { flex: 0 0 25%; max-width: 25%; }
+  .col-md-4 { flex: 0 0 33.333%; max-width: 33.333%; }
+  .col-md-6 { flex: 0 0 50%; max-width: 50%; }
+  .col-md-8 { flex: 0 0 66.666%; max-width: 66.666%; }
+  .col-md-12 { flex: 0 0 100%; max-width: 100%; }
+}
+
+/* Large devices (992px and up) */
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+  
+  .col-lg-1 { flex: 0 0 8.333%; max-width: 8.333%; }
+  .col-lg-2 { flex: 0 0 16.666%; max-width: 16.666%; }
+  .col-lg-3 { flex: 0 0 25%; max-width: 25%; }
+  .col-lg-4 { flex: 0 0 33.333%; max-width: 33.333%; }
+  .col-lg-6 { flex: 0 0 50%; max-width: 50%; }
+  .col-lg-8 { flex: 0 0 66.666%; max-width: 66.666%; }
+  .col-lg-12 { flex: 0 0 100%; max-width: 100%; }
+}
+
+/* Extra large devices (1200px and up) */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+/* Mobile Navigation */
+@media (max-width: 767px) {
+  .navbar .container {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-xs);
+  }
+  
+  .navbar-nav a {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .card-img {
+    height: 180px;
+  }
+  
+  .modal-content {
+    width: 95%;
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+}
+
+/* Tablet Adjustments */
+@media (min-width: 768px) and (max-width: 991px) {
+  .card-img {
+    height: 220px;
+  }
+}
+
+/* Hide on Mobile */
+@media (max-width: 767px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Hide on Desktop */
+@media (min-width: 768px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .navbar,
+  .footer,
+  .btn,
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background-color: white;
+  }
+  
+  .card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
